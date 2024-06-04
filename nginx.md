@@ -41,11 +41,10 @@ $ nginx -s reload
 
 ```
 server {
-listen 80;
-server_name domain.com;
+    listen 80;
+    server_name domain.com;
 
     root /srv/static/domain.com;
-
 }
 ```
 
@@ -58,6 +57,50 @@ $ ln -s /etc/nginx/sites-available/domain.com /etc/nginx/sites-enabled/domain.co
 4. Put a `index.html` file in `/srv/static/domain.com` directory
 
 5. Test and apply config changes.
+
+### Add proxy site
+
+```
+server {
+    listen 80;
+    server_name domain.com;
+
+    location / {
+        proxy_set_header x-forwarded-host "domain.com";
+        proxy_pass http://localhost:3000;
+    }
+}
+```
+
+### Setup timeout and body size
+
+```
+server {
+    listen 80;
+    server_name domain.com;
+
+    proxy_read_timeout 300;
+    proxy_connect_timeout 300;
+    proxy_send_timeout 300;
+    client_max_body_size 20M;
+
+    location / {
+        proxy_set_header x-forwarded-host "domain.com";
+        proxy_pass http://localhost:3000;
+    }
+}
+```
+
+### Redirect to another location
+
+```
+server {
+    listen 80;
+
+    server_name domain.com;
+    return 301 https://www.domain.com$request_uri;
+}
+```
 
 ## Setup SSL certificate
 
