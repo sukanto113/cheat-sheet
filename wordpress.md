@@ -17,7 +17,6 @@ $ sudo chown -R www-data: /var/www/html/sample.com
 
 ### Configure Nginx for WordPress
 
-
 ```
 server {
     listen 80;
@@ -61,6 +60,19 @@ server {
 $ sudo ln -s /etc/nginx/sites-available/sample.com /etc/nginx/sites-enabled/
 ```
 
+### Increase file upload size
+
+```
+$ vim /etc/php/8.3/fpm/php.ini
+
+post_max_size = 128M
+upload_max_filesize = 128M
+
+$ systemctl restart php8.3-fpm
+```
+
 ## Refference:
 
 - [WordPress Nginx: Everything You Need to Know About Installing WordPress on Ubuntu](https://www.hostinger.com/tutorials/how-to-install-wordpress-with-nginx-on-ubuntu/)
+
+- [Increase file upload size in WordPress on Nginx server](https://medium.com/@stefanledin/increase-file-upload-size-in-wordpress-on-nginx-server-19626f4ef8b9)
