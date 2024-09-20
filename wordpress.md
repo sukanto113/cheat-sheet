@@ -71,6 +71,11 @@ upload_max_filesize = 128M
 $ systemctl restart php8.3-fpm
 ```
 
+## Local setup
+```
+define( 'FS_METHOD', 'direct' );
+```
+
 ## Refference:
 
 - [WordPress Nginx: Everything You Need to Know About Installing WordPress on Ubuntu](https://www.hostinger.com/tutorials/how-to-install-wordpress-with-nginx-on-ubuntu/)
