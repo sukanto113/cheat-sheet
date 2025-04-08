@@ -49,8 +49,20 @@ sudo systemctl status mongod
 ---> run on encounter and error $ sudo systemctl daemon-reload
 
 sudo vim /etc/mongod.conf
+```
+net:
+  port: 27017
+  bindIp: 0.0.0.0
+
+security:
+  authorization: enabled
+```
+
+
 sudo systemctl restart mongod
 
+mongosh
+use admin
 
 db.createUser(
   {
@@ -59,3 +71,5 @@ db.createUser(
     roles: [ { role: "root", db: "admin" } ]
   }
 )
+
+mongosh --port 27017 -u root -p '$tr0ngPa$$w0rD' 'test'
