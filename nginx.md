@@ -86,6 +86,7 @@ server {
 
     location / {
         proxy_set_header x-forwarded-host "domain.com";
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_pass http://localhost:3000;
     }
 }
