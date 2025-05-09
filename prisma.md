@@ -18,6 +18,12 @@ $ npx prisma generate
 $ npx prisma migrate dev --name init
 ```
 
+### Mark failed migration as rolled back and re-deploy
+```
+$ npx prisma migrate resolve --rolled-back "20201127134938_added_bio_index"
+$ npx prisma migrate deploy
+```
+
 ### Deploy to server
 
 ```
