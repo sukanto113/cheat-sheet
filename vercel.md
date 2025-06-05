@@ -3,4 +3,5 @@
 ```
 $ npm i -g vercel@latest
 $ vercel
+$ vercel --prod
 ```

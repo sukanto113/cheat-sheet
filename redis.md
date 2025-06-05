@@ -8,7 +8,7 @@ systemctl restart redis.service
 sudo vim /etc/redis/redis.conf
 foobared
 ```conf
-bind 0.0.0.0
+bind 0.0.0.0 -::1
 
 protected-mode no
 
