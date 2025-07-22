@@ -103,6 +103,21 @@ server {
 }
 ```
 
+### Serve static website
+```
+server {
+    listen 80;
+    server_name your-domain.com; # or IP if no domain
+
+    root /var/www/my-vite-app;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
+
 ## Setup SSL certificate
 
 ### Install cartbot

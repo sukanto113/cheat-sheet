@@ -2,7 +2,7 @@
 
 ## Get ip address of a machine
 
-Add host only adapter and run the `sudo dhclient`
+Add host only adapter / Bridge Adapter and run the `sudo dhclient`
 
 ```
 $ sudo apt install isc-dhcp-client
