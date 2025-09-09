@@ -1,9 +1,8 @@
 ln -sfn my-app-blue my-app
 
-
 # Update Process (Zero Downtime)
 
-```sh
+```sh deploy-my-app.sh
 #!/bin/bash
 
 set -e  # Exit immediately on any command failure
@@ -30,3 +29,5 @@ pm2 reload next-app
 
 echo "✅ Deployment complete to $INACTIVE"
 ```
+
+chmod +x deploy-my-app.sh

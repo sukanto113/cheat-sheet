@@ -82,7 +82,7 @@ server {
     proxy_read_timeout 300;
     proxy_connect_timeout 300;
     proxy_send_timeout 300;
-    client_max_body_size 20M;
+    client_max_body_size 500M;
 
     location / {
         proxy_set_header x-forwarded-host "domain.com";
