@@ -20,9 +20,12 @@ pm2 stop all
 pm2 delete all
 pm2 save --force
 pm2 start ./ecosystem.config.js
-pm2 startup
 pm2 save
+pm2 startup 
 systemctl restart pm2-root
+
+# Step 1: Apply new config
+pm2 reload ecosystem.config.js
 
 
 # Quick patch for Next.js to emit ready

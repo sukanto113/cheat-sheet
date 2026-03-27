@@ -1,12 +1,16 @@
 # install redis
+
 sudo add-apt-repository ppa:redislabs/redis -y
 sudo apt update
 apt install redis-server -y
 systemctl restart redis.service
+sudo systemctl restart redis-server.service
 
 # setup auth
+
 sudo vim /etc/redis/redis.conf
 foobared
+
 ```conf
 bind 0.0.0.0 -::1
 
@@ -17,3 +21,6 @@ requirepass mypassword
 
 systemctl restart redis.service
 systemctl status redis-server.service
+
+sudo systemctl enable redis-server
+sudo systemctl start redis-server
