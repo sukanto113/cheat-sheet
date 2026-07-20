@@ -114,6 +114,14 @@ $ sudo systemctl stop mysql; sudo apt-get purge -y mysql-server mysql-client mys
 2. Secure MySQL installation
 3. Create user and database
 
+
+## clear binlog
+```
+> SHOW BINARY LOGS;
+
+> PURGE BINARY LOGS BEFORE DATE_SUB(NOW(), INTERVAL 1 DAY);
+```
+
 ## Refference:
 
 - [How To Install MySQL on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04)

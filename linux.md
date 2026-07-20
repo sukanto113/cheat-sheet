@@ -1,6 +1,11 @@
 ## 🔍 Check disk usage per directory
 ```sh
-sudo du -h --max-depth=1 / | sort -hr | head -n 20
+sudo du -lah --max-depth=1 /var | sort -hr | head -n 20
+```
+
+## Check available storage
+```sh
+df -h
 ```
 
 ## Make a .sh executable 
@@ -27,4 +32,17 @@ swapon --show
 sudo sync
 sudo swapoff -a && sudo swapon -a
 echo 3 | sudo tee /proc/sys/vm/drop_caches
+```
+
+## setup dns
+```sh
+$ sudo vim /etc/systemd/resolved.conf
+
+[Resolve]
+DNS=1.1.1.1 8.8.8.8
+FallbackDNS=9.9.9.9
+
+$ sudo systemctl restart systemd-resolved
+
+$ resolvectl status
 ```
