@@ -72,6 +72,7 @@ $ systemctl restart php8.3-fpm
 ```
 
 ## Local setup
+wp-config.php
 ```
 define( 'FS_METHOD', 'direct' );
 ```
