@@ -27,32 +27,18 @@ systemctl restart pm2-root
 # Step 1: Apply new config
 pm2 reload ecosystem.config.js
 
+# increast restart timeout
 
-# Quick patch for Next.js to emit ready
-
-```js
-// start-server.js
-const { spawn } = require("child_process");
-
-const proc = spawn("npx", ["next", "start"], {
-  stdio: ["inherit", "inherit", "inherit"],
-});
-
-proc.on("spawn", () => {
-  // Fake delay if needed (e.g., to wait for "ready" log)
-  setTimeout(() => {
-    if (process.send) process.send("ready");
-  }, 4000);
-});
+sudo systemctl edit pm2-root
+```
+[Service]
+TimeoutStopSec=200
+TimeoutStartSec=200
+Restart=always
+RestartSec=5
 ```
 
-```js
-{
-  script: "start-server.js",
-  wait_ready: true,
-  listen_timeout: 8000,
-  kill_timeout: 8000,
-  exec_mode: "cluster",
-  instances: 1
-}
-```
+sudo systemctl daemon-reload
+sudo systemctl restart pm2-root
+pm2 list
+
