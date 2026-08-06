@@ -104,6 +104,7 @@ server {
 ```
 
 ### Serve static website
+
 ```
 server {
     listen 80;
@@ -118,13 +119,106 @@ server {
 }
 ```
 
+## fix 522 error
+
+### Increase the SYN backlog
+
+$ sudo nano /etc/sysctl.conf
+
+```
+net.ipv4.tcp_max_syn_backlog=8192
+net.core.somaxconn=8192
+```
+
+$ sudo sysctl -p
+
+### Raise nginx capacity (the core fix)
+
+$ vim /etc/nginx/nginx.conf
+
+```
+worker_processes auto;
+worker_rlimit_nofile 65535;
+
+events {
+    worker_connections 8192;
+    multi_accept on;
+}
+
+http {
+    ...
+    keepalive_timeout 90;
+    ...
+}
+```
+
+$ vim /etc/nginx/sites-enabled/default
+
+```
+listen 80 default_server backlog=4096;
+```
+
+$ vim app.betterenrich.com
+
+```
+listen 443 ssl backlog=4096; # managed by Certbot
+```
+
+Then apply with a full restart
+
+```sh
+nginx -t && sudo systemctl restart nginx
+ss -ltn 'sport = :443'    # Send-Q should now show 4096, not 511
+```
+
+### Stop burning a connection per request to Next.js
+
+this is not a required fix for 522 it is supporting a fix.
+
+$ vim /etc/nginx/sites-available/app.betterenrich.com
+
+```
+
+upstream betterenrich_app {
+server 127.0.0.1:3001;
+keepalive 64;
+}
+
+server {
+...
+location / {
+ proxy_pass http://betterenrich_app;
+
+        # These two lines enable connection reuse to the app
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+
+        # Headers
+        proxy_set_header Host $host;
+        proxy_set_header x-forwarded-host "app.betterenrich.com";
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+}
+
+```
+
+### Check error count
+
+watch -d 'netstat -s | grep -i listen' # counters should stop climbing
+ss -ltn # Recv-Q should stay near 0 on LISTEN sockets
+
 ## Setup SSL certificate
 
 ### Install cartbot
 
 ```
+
 $ sudo snap install --classic certbot
 $ sudo ln -s /snap/bin/certbot /usr/bin/certbot
+
 ```
 
 ### Get cerficicate
